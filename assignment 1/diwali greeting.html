@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diwali Greeting</title>
+    <style>
+        canvas {
+            border:10px solid red;
+            display: block;
+            margin: 100px auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="diwaliCanvas" width="800" height="600"></canvas>
+    <script>
+        canvas = document.getElementById('diwaliCanvas');
+        ctx = canvas.getContext('2d');
+        
+
+        gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+        gradient.addColorStop(0, '#ffcc00'); // Yellow
+        gradient.addColorStop(1, '#9933cc'); // Purple
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        function drawStar(x, y, radius, points, rotation) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(rotation);
+            ctx.beginPath();
+            ctx.moveTo(0, 0 - radius);
+            for (let i = 0; i < points; i++) {
+                ctx.rotate(Math.PI / points);
+                ctx.lineTo(0, 0 - (radius * 0.5));
+                ctx.rotate(Math.PI / points);
+                ctx.lineTo(0, 0 - radius);
+            }
+            ctx.closePath();
+            ctx.fillStyle = "yellow"; 
+            ctx.fill();
+            ctx.restore();
+        }
+
+        for ( i = 0; i < 50; i++) {
+            x = Math.random() * canvas.width;
+            y = Math.random() * canvas.height;
+            radius = Math.random() * 3 + 1;
+            points = 5;
+            rotation = Math.random() * 360 * (Math.PI / 180);
+            drawStar(x, y, radius, points, rotation);
+        }
+
+        ctx.font = '50px Arial';
+        ctx.fillStyle = "red"; 
+        ctx.fillText('Happy Diwali to All', canvas.width / 3- 100, canvas.height / 2);
+
+    </script>
+</body>
+</html>

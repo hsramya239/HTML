@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Offline Form</h1>
+
+    <form id="myForm">
+        <label for="firstname">FirstName:</label>
+        <input type="text" id="firstname" name="firstname" required><br><br>
+
+        <label for="lastname">LastName:</label>
+        <input type="text" id="lastname" name="lastname" required><br><br>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="age">Age: </label>
+    <input type="number" id="age" name="age" required min="18"><br><br>
+
+    <label for="cityOfBirth">City Of Birth :</label>
+    <select id="cityOfBirth" name="cityOfBirth" required>
+        <option value=""> select a city</option>
+        <option value="bangalore">Bangalore</option>
+        <option value="jaipur">Jaipur</option>
+        <option value="sambalpur">Sambalpur</option>
+        <option value="mangalore">Mangalore</option>
+        <option value="patna">Patna</option>
+        <option value="srinagar">Srinagar</option>
+        <option value="kanpur">Kanpur</option>
+        <option value="guwahati">Guwahati</option>
+        <option value="hassan">Hassan</option>
+        <option value="ramnagar">Ramnagar</option>
+        <option value="bidar">Bidar</option>
+        <option value="tumkur">Tumkur</option>
+    </select><br><br>
+
+    <label for="resume">Select Your Resume (PDF, DOC, or DOCX): </label>
+    <input type="file" id="resume" name="resume" accept=".pdf, .doc, .docx" required><br><br>
+
+    <label for="joiningDate">Tentative Joining Date:</label>
+    <input type="date" id="joiningDate" name="joiningDate" required><br><br>
+
+    <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        
+        function isOnline() {
+            return navigator.onLine;
+        }
+
+    
+        function saveFormDataLocally(formData) {
+            localStorage.setItem('offlineFormData', JSON.stringify(formData));
+        }
+
+        document.getElementById('myForm').addEventListener('submit', function (event) {
+            event.preventDefault(); 
+
+            var firstname = document.getElementById('firstname').value;
+            var lastname = document.getElementById('lastname').value;
+            var email = document.getElementById('email').value;
+            var age = document.getElementById('age').value;
+            var cityOfBirth = document.getElementById('cityOfBirth').value;
+            var resume = document.getElementById('resume').value;
+            var joiningDate = document.getElementById('joiningDate').value;
+
+            var formData = {
+              firstname,lastname,email,age,cityOfBirth,resume,joiningDate
+                
+            };
+
+            if (isOnline()) {
+                
+                console.log('Form submitted online:', formData);
+            } else {
+                
+                saveFormDataLocally(formData);
+                console.log('Form data saved locally:', formData);
+            }
+            document.getElementById('myForm').reset();
+        });
+
+        
+        window.addEventListener('online', function () {
+            const storedData = localStorage.getItem('offlineFormData');
+
+            if (storedData) {
+                const formData = JSON.parse(storedData);
+
+                // You can now send the stored form data to the server
+                console.log('Submitting stored form data online:', formData);
+
+                localStorage.removeItem('offlineFormData');
+            }
+        });
+    </script>
+</body>
+</html>
